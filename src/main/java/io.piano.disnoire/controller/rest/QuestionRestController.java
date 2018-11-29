@@ -20,6 +20,6 @@ public class QuestionRestController {
 
     @PostMapping("ask/question")
     public ResponsesDto askQuestion(@RequestBody QuestionDto questionDto){
-        return questionService.sendQuestionToStackoverflowAPI(questionDto.getQuestion());
+        return questionService.sendQuestionToStackoverflowAPI(questionDto.getQuestion(), questionDto.getSort());
     }
 }

@@ -3,6 +3,7 @@ package io.piano.disnoire.service;
 import io.piano.disnoire.dto.AnswersDto;
 import io.piano.disnoire.dto.ResponseDto;
 import io.piano.disnoire.dto.ResponsesDto;
+import io.piano.disnoire.param.Sort;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -24,7 +25,7 @@ public class QuestionServiceImpl implements QuestionService {
     private RestTemplate restTemplate = new RestTemplate(requestFactory);
 
     @Override
-    public ResponsesDto sendQuestionToStackoverflowAPI(String question) {
+    public ResponsesDto sendQuestionToStackoverflowAPI(String question, Sort sort) {
         String url = "http://api.stackexchange.com/2.2/search?" +
                 "order={order}&" +
                 "sort={sort}&" +
@@ -33,7 +34,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         HashMap<String, String> params = new HashMap<>();
         params.put("order", "desc");
-        params.put("sort", "activity");
+        params.put("sort", sort.toString());
         params.put("intitle", question);
         params.put("site", "stackoverflow");
         AnswersDto items;

@@ -15,12 +15,58 @@
         <div class="form-group row" style="margin-left: 0">
             <div class="col-xs-4">
                 <form th:method="get">
-                    <label for="query">
-                        <input type="text" id="query" name="query" class="form-control" placeholder="Search..."/>
-                    </label>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-14">
+                                <th:block th:if="${#request.getParameter('query') != null}">
+                                    <input th:value="${#request.getParameter('query')}" type="text" name="query" class="form-control" placeholder="Search..."/>
+                                </th:block>
+                                <th:block th:if="${#request.getParameter('query') == null}">
+                                    <input type="text" name="query" class="form-control" placeholder="Search..."/>
+                                </th:block>
+                            </div>
+                            <div class="col-3">
+                                <div th:if="${#request.getParameter('query') != null}" class="btn-group" role="group">
+                                    <th:block th:if="${#request.getParameter('sort') != null}" th:switch="${#request.getParameter('sort')}">
+                                        <th:block th:case="'activity'">
+                                            <button name="sort" value="activity" type="submit" class="btn btn-outline-primary">Activity</button>
+                                            <button name="sort" value="votes" type="submit" class="btn btn-outline-secondary">Votes</button>
+                                            <button name="sort" value="creation" type="submit" class="btn btn-outline-secondary">Creation</button>
+                                            <button name="sort" value="relevance" type="submit" class="btn btn-outline-secondary">Relevance</button>
+                                        </th:block>
+                                        <th:block th:case="'votes'">
+                                            <button name="sort" value="activity" type="submit" class="btn btn-outline-secondary">Activity</button>
+                                            <button name="sort" value="votes" type="submit" class="btn btn-outline-primary">Votes</button>
+                                            <button name="sort" value="creation" type="submit" class="btn btn-outline-secondary">Creation</button>
+                                            <button name="sort" value="relevance" type="submit" class="btn btn-outline-secondary">Relevance</button>
+                                        </th:block>
+                                        <th:block th:case="'creation'">
+                                            <button name="sort" value="activity" type="submit" class="btn btn-outline-secondary">Activity</button>
+                                            <button name="sort" value="votes" type="submit" class="btn btn-outline-secondary">Votes</button>
+                                            <button name="sort" value="creation" type="submit" class="btn btn-outline-primary">Creation</button>
+                                            <button name="sort" value="relevance" type="submit" class="btn btn-outline-secondary">Relevance</button>
+                                        </th:block>
+                                        <th:block th:case="'relevance'">
+                                            <button name="sort" value="activity" type="submit" class="btn btn-outline-secondary">Activity</button>
+                                            <button name="sort" value="votes" type="submit" class="btn btn-outline-secondary">Votes</button>
+                                            <button name="sort" value="creation" type="submit" class="btn btn-outline-secondary">Creation</button>
+                                            <button name="sort" value="relevance" type="submit" class="btn btn-outline-primary">Relevance</button>
+                                        </th:block>
+                                    </th:block>
+                                    <th:block th:if="${#request.getParameter('sort') == null}">
+                                        <button name="sort" value="activity" type="submit" class="btn btn-outline-primary">Activity</button>
+                                        <button name="sort" value="votes" type="submit" class="btn btn-outline-secondary">Votes</button>
+                                        <button name="sort" value="creation" type="submit" class="btn btn-outline-secondary">Creation</button>
+                                        <button name="sort" value="relevance" type="submit" class="btn btn-outline-secondary">Relevance</button>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
+        <hr/>
         <div th:if="${answers != null}">
             <ul th:each="answer : ${answers.getResponses()}" class="list-group list-group-flush">
                 <li class="list-group-item">
